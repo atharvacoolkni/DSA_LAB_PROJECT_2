@@ -1,185 +1,134 @@
 # Social Network Analysis Tool
+**README Documentation**
 
-## Project Overview
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Data Structures Used](#data-structures-used)
+   - [Graph Representation](#graph-representation)
+   - [Traversal Data Structures](#traversal-data-structures)
+3. [Explanation of Functions](#explanation-of-functions)
+   - [Graph Construction](#graph-construction)
+   - [BFS Traversal](#bfs-traversal)
+   - [Degree Centrality](#degree-centrality)
+   - [Community Detection (Connected Components)](#community-detection-connected-components)
+   - [Graph Export (DOT Format)](#graph-export-dot-format)
+4. [Example Usage](#example-usage)
+   - [Input Edges](#input-edges)
+   - [Output (Simulated Terminal)](#output-simulated-terminal)
+   - [Graph Export (DOT Format)](#graph-export-dot-format)
+5. [Conclusion](#conclusion)
 
-This project is a **Social Network Analysis Tool** built in **C++** that utilizes **graph data structures** and **hash tables** to model and analyze social networks. The tool provides functionalities such as:
+---
 
-1. **Graph Construction**: Represents users (nodes) and their relationships (edges).
-2. **Social Network Analysis**:
-   - **Centrality Calculation**: Identifies key individuals based on their connections.
-   - **Community Detection**: Finds groups of users who are closely connected.
-   - **Graph Traversals**: Explores the network using BFS (Breadth-First Search) and DFS (Depth-First Search).
-3. **Graph Export**: Outputs the graph to a `.dot` file for visualization using tools like GraphViz.
+## Introduction
+The Social Network Analysis Tool is a C++ implementation that models and analyzes complex networks. Using graph-based data structures and traversal algorithms, this tool provides insights into network structure, community formation, and influential nodes. It is designed for real-world applications such as analyzing social media networks.
 
 ---
 
 ## Data Structures Used
 
-- **Graph Representation**: 
-  - Nodes are stored as objects containing their ID and a list of neighbors.
-  - The graph is represented as an adjacency list using a hash table (`std::unordered_map`).
+### Graph Representation
+- **Adjacency List:**
+  - `unordered_map<string, Node*>`: Maps each node ID to its `Node` object.
+  - **Node Class:** Stores the node's ID and its list of neighbors (`vector<string>`).
+  
+This approach is memory-efficient and well-suited for sparse graphs.
 
-- **Hash Table** (`std::unordered_map`): 
-  - Efficiently maps node IDs to their respective node objects.
-
-- **Queue** (`std::queue`): 
-  - Used in **BFS** to process nodes level by level.
-
-- **Set** (`std::set`): 
-  - Tracks visited nodes during BFS, DFS, and community detection.
-
-- **File Stream** (`std::ofstream`): 
-  - Writes the graph structure to a `.dot` file.
+### Traversal Data Structures
+- **Queue:** Used for BFS traversal to explore nodes level by level.
+- **Set:** Tracks visited nodes to prevent revisits during BFS and DFS.
 
 ---
 
-## Features
+## Explanation of Functions
 
-### 1. **Graph Construction**
-- **`addNode`**: Adds a node (user) to the graph if it does not already exist.
-- **`addEdge`**: Adds an undirected edge between two nodes, creating nodes automatically if they don't exist.
+### Graph Construction
+- **`addNode(string id)`**: Adds a new node to the graph if it doesn't already exist.
+- **`addEdge(string id1, string id2)`**: Adds an undirected edge between two nodes.
 
-### 2. **Graph Traversals**
-- **Breadth-First Search (BFS)**:
-  - Explores the graph level by level starting from a given node.
-  - Identifies all users directly or indirectly connected to a specific user.
-- **Depth-First Search (DFS)**:
-  - Explores the graph deeply from one node before backtracking.
-  - Used to find all users in a connected component.
+### BFS Traversal
+- Explores all nodes reachable from a given starting node, layer by layer.
+- Maintains a queue to process nodes and a set to track visited nodes.
 
-### 3. **Community Detection**
-- **`findConnectedComponents`**:
-  - Identifies connected components (communities) in the graph.
-  - Each community is a group of closely connected users.
+### Degree Centrality
+- Calculates the number of direct connections (edges) for each node.
+- Uses the adjacency list to determine neighbor counts.
 
-### 4. **Centrality Calculation**
-- **`calculateDegreeCentrality`**:
-  - Computes the degree centrality of each node (number of direct connections).
-  - Helps identify influencers in the network.
+### Community Detection (Connected Components)
+- Uses DFS to identify groups of connected nodes in the graph.
+- Recursively visits all nodes in a connected component using a set to track visited nodes.
 
-### 5. **Graph Export**
-- **`exportToGraphViz`**:
-  - Exports the graph in **DOT format** for visualization using GraphViz.
-  - Creates a file named `graph.dot`.
+### Graph Export (DOT Format)
+- Exports the graph in DOT format for visualization with GraphViz.
+- Outputs edges in the syntax: `"Node1" -- "Node2";`.
 
 ---
 
-## How This is a Social Network Analysis Tool
+## Example Usage
 
-1. **Centrality**:
-   - Identifies "influencers" in the network by calculating the degree centrality.
-   - Users with high centrality scores have more direct connections and influence.
+### Input Edges
+The program is initialized with the following edges:
 
-2. **Community Detection**:
-   - Discovers groups (communities) in the network using DFS to find connected components.
-
-3. **Graph Traversals**:
-   - BFS and DFS provide insights into how users are connected and how information can propagate.
-
-4. **Visualization**:
-   - The exported graph in DOT format helps visualize relationships and identify clusters easily.
-
----
-
-## How to Use the Tool
-
-### 1. **Compile the Program**
-Use the following command to compile the program:
-```bash
-g++ -o social_network_analysis social_network_analysis.cpp
-
-./social_network_analysis
-
+```cpp
+graph.addEdge("Arjun", "Bhavana");
+graph.addEdge("Bhavana", "Charu");
+graph.addEdge("Charu", "Deepak");
+graph.addEdge("Deepak", "Esha");
+graph.addEdge("Farhan", "Gita");
+graph.addEdge("Gita", "Harsh");
+graph.addEdge("Harsh", "Isha");
+graph.addEdge("Isha", "Jatin");
+graph.addEdge("Kavita", "Lalit");
+graph.addEdge("Lalit", "Manav");
+graph.addEdge("Manav", "Nidhi");
+graph.addEdge("Nidhi", "Omkar");
 ```
-## View Outputs
 
-- The program will display the following results in the console:
-  1. **BFS Traversal**: Shows the order of nodes visited starting from a specific node.
-  2. **Degree Centrality**: Lists the centrality scores of each node (number of direct connections).
-  3. **Communities**: Identifies connected components (groups of users) in the graph.
+## Output (Simulated Terminal)
 
-- The graph structure is exported to a file named `graph.dot`.
+```cpp
 
----
+$ ./social_network_analysis
 
-## Visualize the Graph
+BFS starting from Arjun:
+Arjun Bhavana Charu Deepak Esha
 
-To visualize the graph:
+Degree Centrality:
+Arjun: 1
+Bhavana: 2
+Charu: 2
+Deepak: 2
+Esha: 1
+Farhan: 1
+Gita: 2
+Harsh: 2
+Isha: 2
+Jatin: 1
+Kavita: 1
+Lalit: 2
+Manav: 2
+Nidhi: 2
+Omkar: 1
 
-1. **Using a GraphViz Viewer**:
-   - Open the `graph.dot` file in any GraphViz-compatible viewer.
+Communities:
+Community 1: Arjun Bhavana Charu Deepak Esha
+Community 2: Farhan Gita Harsh Isha Jatin
+Community 3: Kavita Lalit Manav Nidhi Omkar
 
-2. **Using an Online Tool**:
-   - Copy the contents of the `graph.dot` file.
-   - Paste it into an [online GraphViz editor](https://graphviz.gitlab.io/_pages/Examples.html) or tools like [GraphViz Online](https://dreampuf.github.io/GraphvizOnline/).
+Graph exported to graph.dot for visualization.
+```
+## Graph Export (DOT Format)
 
-3. **Using the Command Line**:
-   - Convert the `graph.dot` file to an image using GraphViz:
-     ```bash
-     dot -Tpng graph.dot -o graph.png
-     ```
-   - Open `graph.png` to view the graph structure.
-
-This visualization will provide an intuitive representation of the graph structure, relationships, and communities.
-
-# Sample Output
-
-## BFS Traversal
-**Starting from node Alice:**
-Alice Bob Carol David Eve Frank Grace Heidi Ivan Judy Kevin Lily Mark Nancy Olivia Peter Quinn Rose Sam Tina
-
-
-## Degree Centrality
-**Displays the number of direct connections (degree) for each node:**
-Alice: 4 Bob: 3 Carol: 3 David: 2 Eve: 3 Frank: 2 Grace: 3 Heidi: 4 Ivan: 3 Judy: 3 Kevin: 3 Lily: 2 Mark: 3 Nancy: 2 Olivia: 3 Peter: 3 Quinn: 2 Rose: 2 Sam: 2 Tina: 1
-
-## Communities
-**Connected components (groups of closely related nodes) detected using DFS:**
-
-Community 1: Alice Bob Carol David Eve 
-Community 2: Grace Heidi Ivan Judy Kevin
-Community 3: Lily Mark Nancy Olivia Peter Community 4: Quinn Rose Sam Tina
-
-
-## Graph Export (graph.dot)
-**The graph is exported in DOT format for visualization. Example snippet:**
-```dot
 graph G {
-    "Alice" -- "Bob";
-    "Alice" -- "Carol";
-    "Bob" -- "David";
-    "Carol" -- "Eve";
-    "Eve" -- "Frank";
+    "Arjun" -- "Bhavana";
+    "Bhavana" -- "Charu";
+    "Charu" -- "Deepak";
+    "Deepak" -- "Esha";
+    "Farhan" -- "Gita";
+    "Gita" -- "Harsh";
     ...
 }
-```
-Visualized Graph
-
-To view the network visually, open the graph.dot file in a GraphViz-compatible tool. Below is an example of how the graph may look:
-
-Alice -- Bob -- David
-        |       |
-      Carol     Eve -- Frank
-        ...
-
 
 ## Conclusion
 
-This Social Network Analysis Tool effectively demonstrates how data structures like graphs and hash tables can be utilized to model and analyze complex networks. By implementing fundamental graph traversal algorithms such as BFS and DFS, the tool provides insights into the structure and dynamics of a social network. 
-
-### Key Features:
-1. **Centrality Calculation**: 
-   - The degree centrality measure identifies influential nodes (users) in the network by determining their number of direct connections.
-
-2. **Community Detection**: 
-   - Using DFS, the tool identifies connected components, helping to uncover clusters or communities within the network.
-
-3. **Graph Export**: 
-   - The tool generates a `graph.dot` file, allowing users to visualize the network using GraphViz or similar tools.
-
-### Applications:
-- **Social Media Analysis**: Identifying influencers or key users within a social network.
-- **Community Detection**: Detecting groups or clusters based on interactions.
-- **Visualization**: Visualizing relationships in the network helps understand the connections and clusters at a glance.
-
-This project demonstrates how foundational concepts in data structures and algorithms can be applied to solve real-world problems in social network analysis. By extending this tool with more complex metrics like betweenness centrality, clustering coefficients, or weighted graphs, it can be adapted for advanced social network studies. 
+This Social Network Analysis Tool showcases how graph data structures and algorithms can be used to analyze complex networks. Key features include BFS traversal, degree centrality calculation, and community detection, providing insights into network structure and dynamics. The ability to export graphs for visualization further enhances the tool's utility.
